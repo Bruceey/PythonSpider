@@ -1,0 +1,4 @@
+Scrapy==2.4.1
+itemadapter==0.2.0
+requests==2.24.0
+scrapy_redis==0.6.8
