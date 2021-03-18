@@ -11,6 +11,8 @@ from scrapy.pipelines.images import ImagesPipeline
 
 class MeibangImagePipeline(ImagesPipeline):
     def file_path(self, request, response=None, info=None, *, item=None):
+        """重写图片保存路径"""
         file_dir = ItemAdapter(item).get('file_dir', '')
-        filename = request.url.split('/')[-1]
+        filename_prefix = ItemAdapter(item).get('filename_prefix', '')
+        filename = filename_prefix + request.url.split('/')[-1]
         return f'{file_dir}/{filename}'

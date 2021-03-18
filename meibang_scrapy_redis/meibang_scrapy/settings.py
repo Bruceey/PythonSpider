@@ -26,7 +26,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -52,9 +52,8 @@ ROBOTSTXT_OBEY = False
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   # 'meibang_scrapy.middlewares.MeibangScrapyDownloaderMiddleware': 200,
-   'meibang_scrapy.middlewares.MeibangUserAgentMiddleware': 200,
-   # 'meibang_scrapy.middlewares.MeibangProxyMiddle': 250,
+   'meibang_scrapy.middlewares.MeibangUserAgentMiddleware': 910,
+   # 'meibang_scrapy.middlewares.MeibangProxyMiddle': 920,
 }
 
 # Enable or disable extensions
@@ -72,7 +71,7 @@ ITEM_PIPELINES = {
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
@@ -100,8 +99,8 @@ user_agent_list = [
     'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0',
     'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/75.0'
 ]
-dirname = os.path.dirname(os.path.abspath(__file__))
-IMAGES_STORE = os.path.join(dirname, "image")
+
+IMAGES_STORE = './image'
 
 
 # redis

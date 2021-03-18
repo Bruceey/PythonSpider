@@ -4,20 +4,17 @@
 Python爬虫
 
 #### 软件架构
-软件架构说明
+Python3.8
+
+requests
+
+scrapy
+
+scrapy-redis
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 爬虫案例
+1.  Scrapy-redis爬取美榜整站高清美女图片
 
 #### 参与贡献
 

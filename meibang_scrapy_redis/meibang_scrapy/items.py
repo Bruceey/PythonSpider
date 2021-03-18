@@ -12,3 +12,4 @@ class MeibangScrapyItem(scrapy.Item):
     image_urls = scrapy.Field()
     images = scrapy.Field()
     file_dir = scrapy.Field()
+    filename_prefix = scrapy.Field()
