@@ -7,11 +7,15 @@ from io import BytesIO
 from fontTools.ttLib import TTFont
 import pymysql
 import time
+from concurrent.futures import ThreadPoolExecutor
+import threading
 
 
 ##### 填写你自己的用户名和密码、以及数据库的名字
 db = pymysql.Connect(user='root', password='mysql', database='spider')
 cursor = db.cursor()
+
+lock = threading.Lock()
 # 计数
 COUNT= 0
 
@@ -101,11 +105,13 @@ def run(keyword, city="全国"):
             # 替换真实字符串
             data = {key: get_real_string(value, hex_charMap) for key, value in data.items()}
             # 存入数据库
-            savedb(data)
-            COUNT += 1
+            with lock:
+                savedb(data)
+                COUNT += 1
 
         if sel.css('.btn-next::attr(disabled)').get() is None:
-            page += 1
+            with lock:
+                page += 1
         else:
             break
 
@@ -116,7 +122,8 @@ def main():
         keyword = 'Java'
         # 输入你想查找的范围，如北京、上海等，默认是全国
         city = '全国'
-        run(keyword, city)
+        with ThreadPoolExecutor(8) as pool:
+            pool.submit(run, keyword, city)
         print(f'共抓取{COUNT}条数据')
     finally:
         cursor.close()
