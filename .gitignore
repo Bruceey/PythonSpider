@@ -10,6 +10,7 @@ __pycache__/
 .idea/
 test/
 image/
+img/
 file/
 
 # Distribution / packaging
