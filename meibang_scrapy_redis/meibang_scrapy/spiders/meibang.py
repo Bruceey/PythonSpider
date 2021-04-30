@@ -5,15 +5,18 @@ from scrapy_redis.spiders import RedisSpider
 
 
 
-class MeibangSpider(RedisSpider):
+class MeibangSpider(scrapy.Spider):
     name = 'meibang'
     # download_timeout = 5
     allowed_domains = ['www.meibang88.com']
 
-    # start_urls = ['http://www.meibang88.com/mote/']
+    start_urls = ['http://www.meibang88.com/mote/']
 
     # 起始url所在redis中的key
-    redis_key = "meibang:start_urls"
+    # redis_key = "meibang:start_urls"
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url)
 
     def parse(self, response):
         lis = response.css('.hezi_t>ul>li')

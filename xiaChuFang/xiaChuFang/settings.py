@@ -1,5 +1,4 @@
-import os
-# Scrapy settings for meibang_scrapy project
+# Scrapy settings for xiaChuFang project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -8,14 +7,14 @@ import os
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'meibang_scrapy'
+BOT_NAME = 'xiaChuFang'
 
-SPIDER_MODULES = ['meibang_scrapy.spiders']
-NEWSPIDER_MODULE = 'meibang_scrapy.spiders'
+SPIDER_MODULES = ['xiaChuFang.spiders']
+NEWSPIDER_MODULE = 'xiaChuFang.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'meibang_scrapy (+http://www.yourdomain.com)'
+#USER_AGENT = 'xiaChuFang (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -26,7 +25,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -46,14 +45,14 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'meibang_scrapy.middlewares.MeibangScrapySpiderMiddleware': 543,
+#    'xiaChuFang.middlewares.XiachufangSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'meibang_scrapy.middlewares.MeibangUserAgentMiddleware': 910,
-   # 'meibang_scrapy.middlewares.MeibangProxyMiddle': 920,
+   'xiaChuFang.middlewares.UserAgentMiddleware': 543,
+   # 'xiaChuFang.middlewares.ProxyMiddleware': 500,
 }
 
 # Enable or disable extensions
@@ -65,8 +64,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'meibang_scrapy.pipelines.MeibangImagePipeline': 300,
-   # 'scrapy.pipelines.images.ImagesPipeline': 600,
+   'xiaChuFang.pipelines.MongoPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -89,8 +87,9 @@ AUTOTHROTTLE_ENABLED = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+RETRY_HTTP_CODES = [500, 502, 503, 504, 522, 524, 408, 429, 404]
 
-user_agent_list = [
+USER_AGENT_LIST = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
     'Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2919.83 Safari/537.36',
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2866.71 Safari/537.36',
@@ -99,16 +98,9 @@ user_agent_list = [
     'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:77.0) Gecko/20100101 Firefox/77.0',
     'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/75.0'
 ]
+PROXY_URL = 'http://127.0.0.1:5010/get/'
 
-IMAGES_STORE = './image'
-
-
-# redis
-REDIS_URL = 'redis://127.0.0.1:6379'
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"   # 调度器
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"   # 过滤器
-SCHEDULER_PERSIST = True        # 保留去重集合
-
-
-# 起始url所在redis中的key
-# REDIS_START_URLS_KEY = 'meibang:start_urls'      # 默认也是这个
+# mongodb配置
+MONGO_URL = 'localhost'
+MONGO_DB = 'xiaChuFang'
+COLLECTION = 'menus'

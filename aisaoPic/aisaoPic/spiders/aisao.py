@@ -4,12 +4,16 @@ import re
 from ..items import AisaopicItem
 
 
-class AisaoSpider(RedisSpider):
+class AisaoSpider(scrapy.Spider):
     name = 'aisao'
     allowed_domains = ['www.f4mm.com']
-    # start_urls = ['https://www.f4mm.com/beauty']
+    start_urls = ['https://www.f4mm.com/beauty']
 
     base_page_url = 'https://www.f4mm.com/beauty/{page}'
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url)
 
     def parse(self, response):
         # 获取总页数

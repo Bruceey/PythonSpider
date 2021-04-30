@@ -59,7 +59,7 @@ PROXY_FETCHER = [
 ]
 
 # ############# proxy validator #################
-VERIFY_URL = "http://www.meibang88.com/"   # 美榜图片下载测试url
+VERIFY_URL = "https://www.xiachufang.com/"
 
 # 代理验证时超时时间
 VERIFY_TIMEOUT = 10

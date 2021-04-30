@@ -101,6 +101,14 @@ IMAGES_STORE = "./img"
 
 # redis
 REDIS_URL = 'redis://127.0.0.1:6379'
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"   # 调度器
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"   # 过滤器
-SCHEDULER_PERSIST = True        # 保留去重集合
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"   # 调度器
+# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"   # 过滤器
+
+# 布隆调度器
+SCHEDULER = "scrapy_redis_bloomfilter.scheduler.Scheduler"
+# 布隆过滤器
+DUPEFILTER_CLASS = 'scrapy_redis_bloomfilter.dupefilter.RFPDupeFilter'
+BLOOMFILTER_HASH_NUMBER = 6   # 默认，散列函数的个数
+BLOOMFILTER_BIT = 30          # 默认，位数组的位数
+
+# SCHEDULER_PERSIST = True        # 保留去重集合
