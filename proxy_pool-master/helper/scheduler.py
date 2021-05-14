@@ -27,11 +27,13 @@ from handler.configHandler import ConfigHandler
 
 def _runProxyFetch():
     proxy_queue = Queue()
+    proxy_handler = ProxyHandler()
+    # 当代理池中数量小于poolSizeMin时，再抓取
+    if proxy_handler.db.getCount() < proxy_handler.conf.poolSizeMin:
+        for proxy in runFetcher():
+            proxy_queue.put(Proxy(proxy).to_json)
 
-    for proxy in runFetcher():
-        proxy_queue.put(Proxy(proxy).to_json)
-
-    runChecker("raw", proxy_queue)
+        runChecker("raw", proxy_queue)
 
 
 def _runProxyCheck():

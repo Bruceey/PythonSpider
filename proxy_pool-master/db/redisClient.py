@@ -37,7 +37,9 @@ class RedisClient(object):
         :return:
         """
         self.name = ""
+        # 注意字典删除不存在的键报错
         kwargs.pop("username")
+        # decode_responses=True:这样写存的数据是字符串格式
         self.__conn = Redis(connection_pool=BlockingConnectionPool(decode_responses=True, **kwargs))
 
     def get(self):

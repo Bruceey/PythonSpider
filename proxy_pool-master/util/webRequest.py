@@ -94,3 +94,19 @@ class WebRequest(object):
     def text(self):
         return self.response.text
 
+    @property
+    def json(self):
+        return self.response.json()
+
+if __name__ == '__main__':
+    url = 'http://webapi.http.zhimacangku.com/getip?num=10&type=2&pro=&city=0&yys=0&port=1&time=1&ts=1&ys=0&cs=1&lb=1&sb=0&pb=4&mr=2&regions='
+    r = WebRequest().get(url)
+    ip_info = r.json
+    print(ip_info)
+    if ip_info.get('code') == 0:
+        for data in ip_info['data']:
+            print(data)
+            print(data['ip'])
+            print(data['port'])
+            c = data['ip'] + ":" + data['port']
+            print(c)

@@ -128,3 +128,10 @@ class DbClient(withMetaclass(Singleton)):
 
     def getCount(self):
         return self.client.getCount()
+
+if __name__ == '__main__':
+    # client = DbClient('redis://@127.0.0.1:6379/0')
+    cls = getattr(__import__('redisClient'), 'RedisClient')
+    o = cls(username='')
+    o.changeTable('use_proxy')
+    print(o.get())

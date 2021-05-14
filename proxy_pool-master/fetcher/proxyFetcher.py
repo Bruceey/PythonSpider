@@ -26,30 +26,25 @@ class ProxyFetcher(object):
     @staticmethod
     def freeProxy01():
         """
-        无忧代理 http://www.data5u.com/
-        几乎没有能用的
+        米扑代理 https://proxy.mimvp.com/
         :return:
         """
         url_list = [
-            'http://www.data5u.com/',
-            'http://www.data5u.com/free/gngn/index.shtml',
-            'http://www.data5u.com/free/gnpt/index.shtml'
+            'https://proxy.mimvp.com/freeopen',
+            'https://proxy.mimvp.com/freeopen?proxy=in_tp'
         ]
-        key = 'ABCDEFGHIZ'
+        port_img_map = {'DMxMjg': '3128', 'Dgw': '80', 'DgwODA': '8080',
+                        'DgwOA': '808', 'DgwMDA': '8000', 'Dg4ODg': '8888',
+                        'DgwODE': '8081', 'Dk5OTk': '9999'}
         for url in url_list:
             html_tree = WebRequest().get(url).tree
-            ul_list = html_tree.xpath('//ul[@class="l2"]')
-            for ul in ul_list:
+            for tr in html_tree.xpath(".//table[@class='mimvp-tbl free-proxylist-tbl']/tbody/tr"):
                 try:
-                    ip = ul.xpath('./span[1]/li/text()')[0]
-                    classnames = ul.xpath('./span[2]/li/attribute::class')[0]
-                    classname = classnames.split(' ')[1]
-                    port_sum = 0
-                    for c in classname:
-                        port_sum *= 10
-                        port_sum += key.index(c)
-                    port = port_sum >> 3
-                    yield '{}:{}'.format(ip, port)
+                    ip = ''.join(tr.xpath('./td[2]/text()'))
+                    port_img = ''.join(tr.xpath('./td[3]/img/@src')).split("port=")[-1]
+                    port = port_img_map.get(port_img[14:].replace('O0O', ''))
+                    if port:
+                        yield '%s:%s' % (ip, port)
                 except Exception as e:
                     print(e)
 
@@ -67,59 +62,40 @@ class ProxyFetcher(object):
             yield proxy
 
     @staticmethod
-    def freeProxy03(page_count=1):
+    def freeProxy03():
         """
-        西刺代理 http://www.xicidaili.com  网站已关闭
-        :return:
+        pzzqz https://pzzqz.com/
         """
-        url_list = [
-            'http://www.xicidaili.com/nn/',  # 高匿
-            'http://www.xicidaili.com/nt/',  # 透明
-        ]
-        for each_url in url_list:
-            for i in range(1, page_count + 1):
-                page_url = each_url + str(i)
-                tree = WebRequest().get(page_url).tree
-                proxy_list = tree.xpath('.//table[@id="ip_list"]//tr[position()>1]')
-                for proxy in proxy_list:
-                    try:
-                        yield ':'.join(proxy.xpath('./td/text()')[0:2])
-                    except Exception as e:
-                        pass
+        from requests import Session
+        from lxml import etree
+        session = Session()
+        try:
+            index_resp = session.get("https://pzzqz.com/", timeout=20, verify=False).text
+            x_csrf_token = re.findall('X-CSRFToken": "(.*?)"', index_resp)
+            if x_csrf_token:
+                data = {"http": "on", "ping": "3000", "country": "cn", "ports": ""}
+                proxy_resp = session.post("https://pzzqz.com/", verify=False,
+                                          headers={"X-CSRFToken": x_csrf_token[0]}, json=data).json()
+                tree = etree.HTML(proxy_resp["proxy_html"])
+                for tr in tree.xpath("//tr"):
+                    ip = "".join(tr.xpath("./td[1]/text()"))
+                    port = "".join(tr.xpath("./td[2]/text()"))
+                    yield "%s:%s" % (ip, port)
+        except Exception as e:
+            print(e)
 
     @staticmethod
     def freeProxy04():
         """
-        全网代理 http://www.goubanjia.com/
+        神鸡代理 http://www.shenjidaili.com/
         :return:
         """
-        url = "http://www.goubanjia.com/"
+        url = "http://www.shenjidaili.com/product/open/"
         tree = WebRequest().get(url).tree
-        proxy_list = tree.xpath('//td[@class="ip"]')
-        # 此网站有隐藏的数字干扰，或抓取到多余的数字或.符号
-        # 需要过滤掉<p style="display:none;">的内容
-        xpath_str = """.//*[not(contains(@style, 'display: none'))
-                                        and not(contains(@style, 'display:none'))
-                                        and not(contains(@class, 'port'))
-                                        ]/text()
-                                """
-
-        # port是class属性值加密得到
-        def _parse_port(port_element):
-            port_list = []
-            for letter in port_element:
-                port_list.append(str("ABCDEFGHIZ".find(letter)))
-            _port = "".join(port_list)
-            return int(_port) >> 0x3
-
-        for each_proxy in proxy_list:
-            try:
-                ip_addr = ''.join(each_proxy.xpath(xpath_str))
-                port_str = each_proxy.xpath(".//span[contains(@class, 'port')]/@class")[0].split()[-1]
-                port = _parse_port(port_str.strip())
-                yield '{}:{}'.format(ip_addr, int(port))
-            except Exception:
-                pass
+        for table in tree.xpath("//table[@class='table table-hover text-white text-center table-borderless']"):
+            for tr in table.xpath("./tr")[1:]:
+                proxy = ''.join(tr.xpath("./td[1]/text()"))
+                yield proxy.strip()
 
     @staticmethod
     def freeProxy05(page_count=1):
@@ -143,20 +119,20 @@ class ProxyFetcher(object):
                 yield ':'.join(tr.xpath('./td/text()')[0:2])
 
     @staticmethod
-    def freeProxy06():
+    def freeProxy06(page=2):
         """
-        代理盒子 https://proxy.coderbusy.com/
+        极速代理 https://www.superfastip.com/
         :return:
         """
-        urls = ['https://proxy.coderbusy.com/zh-hans/ops/country/cn.html']
-        for url in urls:
-            tree = WebRequest().get(url).tree
-            proxy_list = tree.xpath('.//table//tr')
-            for tr in proxy_list[1:]:
-                proxy = '{}:{}'.format("".join(tr.xpath("./td[1]/text()")).strip(),
-                                       "".join(tr.xpath("./td[2]//text()")).strip())
-                if proxy:
-                    yield proxy
+        url = "https://api.superfastip.com/ip/freeip?page={page}"
+        for i in range(page):
+            page_url = url.format(page=i + 1)
+            try:
+                resp_json = WebRequest().get(page_url).json
+                for each in resp_json.get("freeips", []):
+                    yield "%s:%s" % (each.get("ip", ""), each.get("port", ""))
+            except Exception as e:
+                print(e)
 
     @staticmethod
     def freeProxy07():
@@ -175,18 +151,15 @@ class ProxyFetcher(object):
     @staticmethod
     def freeProxy08():
         """
-        IP海 http://www.iphai.com/free/ng
+        小幻代理 https://ip.ihuan.me/
         :return:
         """
         urls = [
-            'http://www.iphai.com/free/ng',
-            'http://www.iphai.com/free/np',
-            'http://www.iphai.com/free/wg',
-            'http://www.iphai.com/free/wp'
+            'https://ip.ihuan.me/address/5Lit5Zu9.html',
         ]
         for url in urls:
             r = WebRequest().get(url, timeout=10)
-            proxies = re.findall(r'<td>\s*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*?</td>[\s\S]*?<td>\s*?(\d+)\s*?</td>',
+            proxies = re.findall(r'>\s*?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*?</a></td><td>(\d+)</td>',
                                  r.text)
             for proxy in proxies:
                 yield ":".join(proxy)
@@ -194,7 +167,7 @@ class ProxyFetcher(object):
     @staticmethod
     def freeProxy09(page_count=1):
         """
-        http://ip.jiangxianli.com/?page=
+        http://ip.jiangxianli.com/
         免费代理库
         :return:
         """
@@ -270,12 +243,35 @@ class ProxyFetcher(object):
         西拉代理
         :return:
         """
-        urls = ['http://www.xiladaili.com/putong/',
-                "http://www.xiladaili.com/gaoni/",
-                "http://www.xiladaili.com/http/",
-                "http://www.xiladaili.com/https/"]
+        urls = ['http://www.xiladaili.com/']
         for url in urls:
             r = WebRequest().get(url, timeout=10)
             ips = re.findall(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}", r.text)
             for ip in ips:
                 yield ip.strip()
+
+    @staticmethod
+    def chargeProxy1():
+        """
+        芝麻付费代理
+        :return:
+        """
+        url = 'http://webapi.http.zhimacangku.com/getip?num=10&type=2&pro=&city=0&yys=0&port=1&pack=146747&ts=1&ys=0&cs=1&lb=1&sb=0&pb=4&mr=2&regions='
+        while True:
+            r = WebRequest().get(url)
+            ip_info = r.json
+            if ip_info.get('code') == 0:
+                for data in ip_info['data']:
+                    yield data['ip'] + ":" + str(data['port'])
+                break
+
+
+
+if __name__ == '__main__':
+    import requests
+    import json
+    url = 'http://webapi.http.zhimacangku.com/getip?num=10&type=2&pro=&city=0&yys=0&port=1&pack=146747&ts=1&ys=0&cs=1&lb=1&sb=0&pb=4&mr=2&regions='
+    r = requests.get(url)
+    j1 = r.json()
+    j2 = json.loads(r.text)
+    print(j1 == j2)

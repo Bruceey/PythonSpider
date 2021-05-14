@@ -1,4 +1,5 @@
 # Scrapy settings for xiaChuFang project
+import os
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -101,6 +102,6 @@ USER_AGENT_LIST = [
 PROXY_URL = 'http://127.0.0.1:5010/get/'
 
 # mongodb配置
-MONGO_URL = 'localhost'
-MONGO_DB = 'xiaChuFang'
+MONGO_URL = os.getenv('MONGO_URL')
+MONGO_DB = os.getenv('MONGO_DB', 'xiaChuFang')
 COLLECTION = 'menus'

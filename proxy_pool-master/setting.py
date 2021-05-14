@@ -45,21 +45,21 @@ TABLE_NAME = 'use_proxy'
 
 # ###### config the proxy fetch function ######
 PROXY_FETCHER = [
-    "freeProxy01",
-    "freeProxy02",
+    # "freeProxy01",
+    # "freeProxy02",
     # "freeProxy03",
-    "freeProxy04",
-    "freeProxy05",
-    "freeProxy06",
-    "freeProxy07",
+    # "freeProxy05",
+    # "freeProxy06",
+    # "freeProxy07",
     # "freeProxy08",
-    "freeProxy09",
-    "freeProxy13",
-    "freeProxy14"
+    # "freeProxy09",
+    # "freeProxy13",
+    # "freeProxy14",
+    "chargeProxy1",
 ]
 
 # ############# proxy validator #################
-VERIFY_URL = "https://www.xiachufang.com/"
+VERIFY_URL = "https://www.baidu.com/"
 
 # 代理验证时超时时间
 VERIFY_TIMEOUT = 10
@@ -68,13 +68,13 @@ VERIFY_TIMEOUT = 10
 PROXY_CHECK_COUNT = 10
 
 # 近PROXY_CHECK_COUNT次校验中允许的最大失败次数,超过则剔除代理
-MAX_FAIL_COUNT = 0
+MAX_FAIL_COUNT = 3
 
 # 近PROXY_CHECK_COUNT次校验中允许的最大失败率,超过则剔除代理
 MAX_FAIL_RATE = 0.1
 
 # proxyCheck时代理数量少于POOL_SIZE_MIN触发抓取
-POOL_SIZE_MIN = 20
+POOL_SIZE_MIN = 100
 
 # ############# scheduler config #################
 
