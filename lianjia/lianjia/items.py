@@ -7,9 +7,8 @@ import scrapy
 
 
 class LianjiaItem(scrapy.Item):
+    # 新房
     collection = 'xinFang'
-    # define the fields for your item here like:
-    # name = scrapy.Field()
     省份 = scrapy.Field()
     城市 = scrapy.Field()
     区域位置 = scrapy.Field()
@@ -41,6 +40,42 @@ class LianjiaItem(scrapy.Item):
     供电方式 = scrapy.Field()
     车位 = scrapy.Field()
     联系方式 = scrapy.Field()
+
+    # 二手房
+    erShouCollection = 'erShouFang'
+    标题 = scrapy.Field()
+
+    房屋户型 = scrapy.Field()
+    所在楼层 = scrapy.Field()
+    # 建筑面积
+    户型结构 = scrapy.Field()
+    套内面积 = scrapy.Field()
+    # 建筑类型
+    房屋朝向 = scrapy.Field()
+    建筑结构 = scrapy.Field()
+    装修情况 = scrapy.Field()
+    梯户比例 = scrapy.Field()
+    配备电梯 = scrapy.Field()
+
+    挂牌时间 = scrapy.Field()
+    交易权属 = scrapy.Field()
+    上次交易 = scrapy.Field()
+    房屋用途 = scrapy.Field()
+    房屋年限 = scrapy.Field()
+    产权所属 = scrapy.Field()
+    抵押信息 = scrapy.Field()
+    房本备件 = scrapy.Field()
+
+    房源标签 = scrapy.Field()
+    # 核心卖点 = scrapy.Field()
+    # 小区介绍 = scrapy.Field()
+    # 周边配套 = scrapy.Field()
+    # 税费解析 = scrapy.Field()
+    # 交通出行 = scrapy.Field()
+    # 权属抵押 = scrapy.Field()
+    房源特色 = scrapy.Field()
+
+
 
 if __name__ == '__main__':
     item = LianjiaItem()

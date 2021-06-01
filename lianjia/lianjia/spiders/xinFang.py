@@ -122,23 +122,7 @@ class XinFangSpider(scrapy.Spider):
         item = response.meta['item']
         json_data = response.json()
         item['联系方式'] = json_data['data']['agentList'][0]['phone400']
-        # TODO 处理数据两端的空格
-        item = self.process_item(item)
         yield item
 
 
-    def process_item(self, item):
-        """
-        处理数据两端的空格
-        :param item:
-        :return:
-        """
-        def serialize(value):
-            if value == '' or value is None:
-                return ''
-            else:
-                return str(value).strip()
 
-        for key, value in item.items():
-            item[key] = serialize(value)
-        return item

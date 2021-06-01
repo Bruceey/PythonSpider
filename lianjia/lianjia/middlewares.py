@@ -12,7 +12,7 @@ import random
 from twisted.internet.error import DNSLookupError
 from scrapy.exceptions import IgnoreRequest
 from fake_useragent import UserAgent
-from .spiders.lianJia import XinFangSpider
+from .spiders.xinFang import XinFangSpider
 from scrapy.http import TextResponse
 
 ua = UserAgent()
@@ -108,6 +108,11 @@ class HeaderMiddleware:
             spider.logger.error(f'{province}-{city} 没有新房。。。')
             raise IgnoreRequest()
             # return TextResponse(url=request.url, body='没有新房'.encode())
+            # 没有二手房时日志记录
+        elif isinstance(exception, DNSLookupError) and spider.name == 'erShouFang' and '/ershoufang' in request.url:
+            province, city = request.meta['data']
+            spider.logger.error(f'{province}-{city} 没有二手房。。。')
+            raise IgnoreRequest()
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
