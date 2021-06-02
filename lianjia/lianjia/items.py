@@ -75,6 +75,28 @@ class LianjiaItem(scrapy.Item):
     # 权属抵押 = scrapy.Field()
     房源特色 = scrapy.Field()
 
+    # 租房
+    zuShouCollection = 'zuFang'
+    房源维护时间 = scrapy.Field()
+    房源验真编号 = scrapy.Field()
+    租赁方式 = scrapy.Field()
+    房屋类型 = scrapy.Field()
+    朝向楼层 = scrapy.Field()
+    入住 = scrapy.Field()
+    电梯 = scrapy.Field()
+    车位 = scrapy.Field()
+    用水 = scrapy.Field()
+    用电 = scrapy.Field()
+    燃气 = scrapy.Field()
+    采暖 = scrapy.Field()
+    租期 = scrapy.Field()
+    看房 = scrapy.Field()
+    配套设施 = scrapy.Field()
+    付款方式 = scrapy.Field()
+    租金 = scrapy.Field()
+    押金 = scrapy.Field()
+    服务费 = scrapy.Field()
+    中介费 = scrapy.Field()
 
 
 if __name__ == '__main__':

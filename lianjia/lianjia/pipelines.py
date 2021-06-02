@@ -29,25 +29,16 @@ class LianjiaPipeline:
 
     def process_item(self, item, spider):
         data = dict(item)
+        data = self.process_data(data)
         if spider.name == 'xinFang':
-            data = self.process_xinfang_item(data)
             self.db[item.collection].insert(data)
         elif spider.name == 'erShouFang':
-            data = self.process_ershou_item(data)
             self.db[item.erShouCollection].insert(data)
+        elif spider.name == 'zuFang':
+            self.db[item.zuShouCollection].insert(data)
         return item
 
-    def process_xinfang_item(self, item):
-        """
-        处理数据两端的空格
-        :param item:
-        :return:
-        """
-        for key, value in item.items():
-            item[key] = self.serialize(value)
-        return item
-
-    def process_ershou_item(self, item):
+    def process_data(self, item):
         """
         处理数据两端的空格
         :param item:
@@ -56,6 +47,7 @@ class LianjiaPipeline:
         for key, value in item.items():
             if isinstance(value, list) and len(value) > 0:
                 if key == '房源特色' or key == '房源标签':
+                    # 处理二手房部分的两个不规则标签
                     # 处理房源特色部分
                     temp = ''
                     for s in value:
@@ -65,8 +57,10 @@ class LianjiaPipeline:
                             temp += s
                     item[key] = temp
                 else:
+                    # 处理常规列表
                     item[key] = ''.join(value)
             else:
+                # 处理单字段两端的空格
                 item[key] = self.serialize(value)
         return item
 

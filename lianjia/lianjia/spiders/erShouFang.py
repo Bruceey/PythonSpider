@@ -15,10 +15,8 @@ class erShouFangSpider(scrapy.Spider):
         with open(URL_FILE) as f:
             reader = csv.reader(f)
             for province, city, city_index_url in reader:
-                if city == '北京':
-                    index = city_index_url.find('.')
-                    city_index_url = city_index_url + 'ershoufang/'
-                    yield scrapy.Request(city_index_url, meta={'data': (province, city)})
+                city_index_url = city_index_url + 'ershoufang/'
+                yield scrapy.Request(city_index_url, meta={'data': (province, city)})
 
     def parse(self, response):
         data = response.meta['data']

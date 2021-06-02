@@ -103,15 +103,17 @@ class HeaderMiddleware:
 
     def process_exception(self, request, exception, spider):
         # 没有新房时日志记录
+        province, city = request.meta['data']
         if isinstance(exception, DNSLookupError) and isinstance(spider, XinFangSpider) and '/loupan' in request.url:
-            province, city = request.meta['data']
             spider.logger.error(f'{province}-{city} 没有新房。。。')
             raise IgnoreRequest()
             # return TextResponse(url=request.url, body='没有新房'.encode())
             # 没有二手房时日志记录
         elif isinstance(exception, DNSLookupError) and spider.name == 'erShouFang' and '/ershoufang' in request.url:
-            province, city = request.meta['data']
             spider.logger.error(f'{province}-{city} 没有二手房。。。')
+            raise IgnoreRequest()
+        elif isinstance(exception, DNSLookupError) and spider.name == 'zuFang' and '/zufang' in request.url:
+            spider.logger.error(f'{province}-{city} 没有租房信息。。。')
             raise IgnoreRequest()
 
     def spider_opened(self, spider):

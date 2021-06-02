@@ -16,10 +16,9 @@ class XinFangSpider(scrapy.Spider):
         with open(URL_FILE) as f:
             reader = csv.reader(f)
             for province, city, city_index_url in reader:
-                if city == '北京':
-                    index = city_index_url.find('.')
-                    city_index_url = city_index_url[:index] + '.fang.' + city_index_url[index + 1:] + self.suffix
-                    yield scrapy.Request(city_index_url, meta={'data': (province, city)})
+                index = city_index_url.find('.')
+                city_index_url = city_index_url[:index] + '.fang.' + city_index_url[index + 1:] + self.suffix
+                yield scrapy.Request(city_index_url, meta={'data': (province, city)})
 
     def parse(self, response):
         # text = getattr(response, 'text', None)
