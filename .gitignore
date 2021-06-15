@@ -12,6 +12,7 @@ test/
 image/
 img/
 file/
+js/
 
 # Distribution / packaging
 .Python
