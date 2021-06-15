@@ -46,19 +46,15 @@ class ZhaopinDownloaderMiddleware:
         if spider.name == 'boss':
             self.browser.get(request.url)
             time.sleep(1)
-            # 点击关掉登录提示框
-            try:
-                self.browser.find_element_by_css_selector('body.jconfirm-noscroll')
-                self.browser.find_element_by_css_selector('.closeIcon').click()
-                time.sleep(1)
-            except NoSuchElementException:
-                print("出现登录提示框")
-
             html = self.browser.page_source
+            # 点击关掉登录提示框
+            if '立即登录，享受优质服务' in html:
+                self.browser.find_element_by_css_selector('.closeIcon').click()
+                print("出现登录提示框，正在关闭...")
+                time.sleep(1)
 
             # 解决ip验证问题
-            message = '当前IP地址可能存在异常访问行为，完成验证后即可正常使用'
-            if message in html:
+            elif '当前IP地址可能存在异常访问行为，完成验证后即可正常使用' in html:
                 self.browser.find_element_by_css_selector(".btn").click()
                 captcha_element = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.geetest_widget')))
                 loc = captcha_element.location
