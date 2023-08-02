@@ -13,6 +13,12 @@ image/
 img/
 file/
 js/
+fiction/
+test.*
+*.pkl
+seg/
+m3u8/
+beauty/
 
 # Distribution / packaging
 .Python
