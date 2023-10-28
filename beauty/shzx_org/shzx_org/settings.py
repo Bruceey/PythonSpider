@@ -93,9 +93,20 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 
 MEDIA_ALLOW_REDIRECTS = True
+
+import sys
+import os
+
+if sys.platform == 'darwin':
+    prefix = "/Users/wangrui/Desktop"
+else:
+    prefix = r"C:\Users\17634\Desktop"
+
 # IMAGES_STORE = r"C:\Users\17634\Desktop\王婉悠"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\陆萱萱"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\周妍希"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\王馨瑶"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\杨晨晨"
-IMAGES_STORE = r"C:\Users\17634\Desktop\尤妮丝"
+# IMAGES_STORE = r"C:\Users\17634\Desktop\尤妮丝"
+
+IMAGES_STORE = os.path.join(prefix, "果儿Victoria")
