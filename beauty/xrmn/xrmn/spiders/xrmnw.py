@@ -8,7 +8,8 @@ class XrmnwSpider(scrapy.Spider):
     # allowed_domains = ['xrmn01.cc']
     # start_urls = ['https://www.xrmn01.cc/plus/search/index.asp?keyword=杨晨晨&p=2']
     # start_urls = ['https://www.xrmn02.cc/XiuRen/2023/202313494.html']
-    start_urls = ['https://www.xrmn02.cc/XiaoYu/2023/202313585.html']
+    # start_urls = ['https://www.xrmn02.cc/XiaoYu/2023/202313585.html']
+    start_urls = ['https://www.xrmn02.cc/XiuRen/2023/202313611.html']
 
     # def parse(self, response, **kwargs):
     #     first_in = response.meta.get('first_in', True)
@@ -25,7 +26,7 @@ class XrmnwSpider(scrapy.Spider):
     #         group_link = response.urljoin(group_link)
     #         yield scrapy.Request(group_link, callback=self.parse_group_link)
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         return self.parse_group_link(response)
 
     def parse_group_link(self, response):
