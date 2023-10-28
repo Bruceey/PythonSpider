@@ -4,23 +4,25 @@ from ..items import ShzxOrgItem
 
 class ShzxSpider(scrapy.Spider):
     name = "shzx"
-    allowed_domains = ["shzx.org"]
-    # start_urls = ["https://www.shzx.org/c/etagid24767-0.html"]  # 杨晨晨
-    start_urls = ["https://www.shzx.org/c/etagid19963-0.html"]  # 尤妮丝
-
+    # allowed_domains = ["shzx.org"]
     # 某一个模特下所有套图
-    # start_urls = ["https://www.shzx.org/c/etagid3035-0.html"]  # 王馨瑶
+    start_urls = [
+        # "https://www.shzx.org/c/etagid24767-0.html",  # 杨晨晨
+        # "https://www.shzx.org/c/etagid19963-0.html",  # 尤妮丝
+        # "https://www.shzx.org/c/etagid3035-0.html",   # 王馨瑶
+        "https://www.shzx.org/c/etagid4033-0.html",   # 果儿Victoria
+    ]
+
     def parse(self, response):
+        """注意：此方法只抓取了当前页面的所有组图链接"""
         group_links = response.xpath('//div[@class="b_txt"]//li/a[position()=last()]/@href').extract()
-        # group_links = group_links[8:10] # 王馨瑶
-        # group_links = group_links[5:10] # 杨晨晨
-        group_links = group_links[5:]  # 尤妮丝
+        group_links = group_links[1:]
         for group_link in group_links:
             group_link = response.urljoin(group_link)
             yield scrapy.Request(group_link, callback=self.parse_img_src, meta={'first': True})
 
     def parse_img_src(self, response):
-        # 是否第一次进来
+        # 组图是否第一次进来
         first = response.meta.get('first')
         # TODO windows下特殊字符问题处理，丢给moddlewares组件处理
         title = response.xpath('//h1/text()').get()
@@ -31,7 +33,7 @@ class ShzxSpider(scrapy.Spider):
         yield ShzxOrgItem(image_urls=image_urls, title=title, image_serials=image_serials)
 
         if first:
-            # 所有页
+            # 组图的其他所有页
             pages = response.css('.paging a::text').re_first(r'\d+')
             pages = int(pages)
             url = response.url
