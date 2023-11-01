@@ -109,4 +109,5 @@ else:
 # IMAGES_STORE = r"C:\Users\17634\Desktop\杨晨晨"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\尤妮丝"
 
-IMAGES_STORE = os.path.join(prefix, "果儿Victoria")
+# IMAGES_STORE = os.path.join(prefix, "果儿Victoria")
+IMAGES_STORE = os.path.join(prefix, "周妍希")

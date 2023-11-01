@@ -10,13 +10,14 @@ class ShzxSpider(scrapy.Spider):
         # "https://www.shzx.org/c/etagid24767-0.html",  # 杨晨晨
         # "https://www.shzx.org/c/etagid19963-0.html",  # 尤妮丝
         # "https://www.shzx.org/c/etagid3035-0.html",   # 王馨瑶
-        "https://www.shzx.org/c/etagid4033-0.html",   # 果儿Victoria
+        # "https://www.shzx.org/c/etagid4033-0.html",   # 果儿Victoria
+        "https://www.shzx.org/c/etagid7598-0.html",   # 周妍希
     ]
 
     def parse(self, response):
         """注意：此方法只抓取了当前页面的所有组图链接"""
         group_links = response.xpath('//div[@class="b_txt"]//li/a[position()=last()]/@href').extract()
-        group_links = group_links[1:]
+        group_links = group_links[:1]
         for group_link in group_links:
             group_link = response.urljoin(group_link)
             yield scrapy.Request(group_link, callback=self.parse_img_src, meta={'first': True})
