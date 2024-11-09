@@ -21,5 +21,6 @@ class XrmnPipeline(ImagesPipeline):
 
     def file_path(self, request, response=None, info=None, *, item=None):
         title = item['title']
+        author = item['author']
         # return f'{title}/{request.serial}.jpg'
-        return f'{title}_{request.serial}.jpg'
+        return f'{author}/{title}_{request.serial}.jpg'

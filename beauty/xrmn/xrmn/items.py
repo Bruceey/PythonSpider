@@ -9,7 +9,7 @@ import scrapy
 class XrmnItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    # group_name = scrapy.Field()
+    author = scrapy.Field()
     image_urls = scrapy.Field()
     images = scrapy.Field()
     title = scrapy.Field()

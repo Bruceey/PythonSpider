@@ -89,8 +89,9 @@ ITEM_PIPELINES = {
 # LOG_FILE = "log/xrmn.log"
 
 MEDIA_ALLOW_REDIRECTS = True
-# IMAGES_STORE = r"D:\Users\Pictures\xrmn\杨晨晨\6"
+IMAGES_STORE = r"C:\Users\17634\Desktop"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\王婉悠"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\陆萱萱"
+# IMAGES_STORE = r"C:\Users\17634\Desktop\王馨瑶"
 # IMAGES_STORE = r"C:\Users\17634\Desktop\周妍希"
-IMAGES_STORE = r"C:\Users\17634\Desktop\杨晨晨3"
+# IMAGES_STORE = r"C:\Users\17634\Desktop\杨晨晨3"

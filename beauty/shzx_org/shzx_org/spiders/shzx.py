@@ -25,7 +25,7 @@ class ShzxSpider(scrapy.Spider):
     def parse_img_src(self, response):
         # 组图是否第一次进来
         first = response.meta.get('first')
-        # TODO windows下特殊字符问题处理，丢给moddlewares组件处理
+        #  TODO windows下特殊字符问题处理，丢给moddlewares组件处理
         title = response.xpath('//h1/text()').get()
         image_urls = response.css('.main img::attr(src)').extract()
         current_page = response.css('.paging b::text').get()
