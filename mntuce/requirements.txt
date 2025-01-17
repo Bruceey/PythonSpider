@@ -1,0 +1,4 @@
+fake_useragent==2.0.3
+itemadapter==0.8.0
+rich==13.9.4
+Scrapy==2.12.0
